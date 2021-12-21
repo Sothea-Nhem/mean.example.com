@@ -12,7 +12,8 @@ var apiUsersRouter = require('./routes/api/users');
 var LocalStrategy = require('passport-local').Strategy;
 //~line 12
 var Users = require('./models/users');
-
+//~line 16
+var apiAuthRouter = require('./routes/api/auth');
 var mongoose = require('mongoose');
 
 //~line 7 after mongoose
@@ -66,6 +67,8 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(user, done){
   done(null, user);
 });
+//~line 74
+app.use('/api/auth', apiAuthRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/users', apiUsersRouter);
