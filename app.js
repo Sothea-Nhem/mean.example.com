@@ -21,7 +21,11 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var app = express();
-mongoose.connect(config.mongodb, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(config.mongodb, {
+  //useUnifiedTopology: true,
+  useNewUrlParser: true, 
+  //useCreateIndex: true 
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
