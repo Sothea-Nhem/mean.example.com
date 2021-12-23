@@ -71,7 +71,7 @@ xhr.onload = function(){
                 </div>
               </div>
               <div class="card-body">
-                <form id="registrationForm" class="card-body">
+              <form id="createUser" class="card-body">
                   <div id="formMsg" class="alert alert-danger text-center">Your form has errors</div>
       
                   <div class="row">
@@ -108,6 +108,38 @@ xhr.onload = function(){
       
         app.innerHTML=form;
       }
+        //~line 113
+  function postRequest(formId, url){
+    let form = document.getElementById(formId);
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      let formData = new FormData(form);
+      let uri = `${window.location.origin}${url}`;
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', uri);
+
+      xhr.setRequestHeader(
+        'Content-Type',
+        'application/json; charset=UTF-8'
+      );
+
+      let object = {};
+      formData.forEach(function(value, key){
+        object[key]=value;
+      });
+
+      xhr.send(JSON.stringify(object));
+      xhr.onload = function(){
+        let data = JSON.parse(xhr.response);
+        if(data.success===true){
+          window.location.href = '/';
+        }else{
+          document.getElementById('formMsg').style.display='block';
+        }
+      }
+    });
+  }
       return {
         //~line 
 load: function(){
@@ -117,6 +149,7 @@ load: function(){
     switch(hashArray[0]){
       case '#create':
         createUser();
+        postRequest('createUser', '/api/users');
         break;	
   
       case '#view':
