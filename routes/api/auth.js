@@ -62,14 +62,14 @@ router.post('/login', function(req, res, next) {
       });
     })(req, res, next);
   });
-  router.delete('/logout', function(req, res){
-    req.session.destroy(function (err) {
-      if(err){
-        return res.json({success: 'false'});
-      }else{
-        return res.json({success: 'true'});
-      }
-    });
+  //~line 60
+router.delete('/logout', function(req, res){
+    req.logout();
+    if(!req.session.passport.user){
+      return res.json({success: 'true'});
+    }else{
+      return res.json({success: 'false'});
+    }
   });
 
 module.exports = router;
