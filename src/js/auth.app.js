@@ -50,6 +50,12 @@ function postRequest(formId, url){
       xhr.onload = function(){
         let data = JSON.parse(xhr.response);
         console.log(data);
+          //~line 52
+        if(data.success===true){
+        window.location.href = '/';
+        }else{
+         document.getElementById('formMsg').style.display='block';
+        }
       }
     });
   }
