@@ -24,7 +24,8 @@ var Articles = new Schema({
     default: Date.now
   },
   modified: {
-    type: Date
+    type: Date,
+    default: Date.now
   }
 });
 
@@ -47,5 +48,10 @@ Articles.pre('validate', function(next){
 
   next();
 });
-  
+
+Articles.pre('save', function(next){
+  this.modified = new Date().toISOString();
+  next();
+  });
+   
 module.exports = mongoose.model('Articles', Articles);
