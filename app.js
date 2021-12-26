@@ -70,7 +70,9 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(function(user, done){
   done(null, user);
 });
-//~line 78
+
+app.use('/api/auth', apiAuthRouter);
+
 //Session-based access control
 app.use(function(req,res,next){
   //Uncomment the following line to allow access to everything.
