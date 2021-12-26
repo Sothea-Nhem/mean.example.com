@@ -6,19 +6,16 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var articlesRouter = require('./routes/articles');
 var config = require('./config.dev');
 var apiUsersRouter = require('./routes/api/users');
-//~line 10
+var apiarticlesRouter = require('./routes/api/articles');
 var LocalStrategy = require('passport-local').Strategy;
-//~line 12
 var Users = require('./models/users');
-//~line 14
+var Articles = require('./models/articles');
 var authRouter = require('./routes/auth');
-//~line 16
 var apiAuthRouter = require('./routes/api/auth');
 var mongoose = require('mongoose');
-
-//~line 7 after mongoose
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
@@ -131,7 +128,9 @@ app.use('/auth', authRouter);
 app.use('/api/auth', apiAuthRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/articles', articlesRouter);
 app.use('/api/users', apiUsersRouter);
+app.use('/api/articles', apiarticlesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
