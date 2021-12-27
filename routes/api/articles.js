@@ -1,28 +1,35 @@
 var express = require('express');
 var router = express.Router();
-var Articles = require('../../models/articles');
+var articles = require('../../models/articles');
 
 router.get('/', function(req, res, next) {
-    Articles.find({},function(err, articles){
+
+    articles.find({},function(err, articles){
         if(err){
          return res.json({'success':false, 'error': err});
        }
+
         return res.json({'success':true, 'articles': articles});
       });
+
 });
 
 router.get('/:articleId', function(req,res){
+
     var articleId = req.params.articleId;
-   Articles.findOne({'_id':articleId}, function(err, article){
+
+   articles.findOne({'_id':articleId}, function(err, article){
      if(err){
       return res.json({'success':false, 'error': err});
     }
+
      return res.json({'success':true, 'article': article});
    });
+
 });
 
 router.post('/', function(req, res) {
-    Articles.create(new Articles({
+    articles.create(new articles({
         title: req.body.title,
         slug: req.body.slug,
         description: req.body.description,
@@ -43,8 +50,8 @@ router.post('/', function(req, res) {
 });
 
 router.put('/', function(req, res){
-    Articles.findOne({'_id': req.body._id}, 
-    function(err, article){
+
+    articles.findOne({'_id': req.body._id}, function(err, article){
 
         if(err) {
           return res.json({success: false, error: err});
@@ -63,7 +70,7 @@ router.put('/', function(req, res){
          };
      
          if(data.description){
-         article.description = description;
+         article.description = data.description;
          };
      
          if(data.keywords){
@@ -76,6 +83,7 @@ router.put('/', function(req, res){
 
          if(data.published){
             article.published = data.published;
+            article.offset = new Date(data.published).getTimezoneOffset();
          };
 
          if(data.created){

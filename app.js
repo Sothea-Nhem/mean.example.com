@@ -124,9 +124,8 @@ app.use(function(req,res,next){
   res.locals.session = req.session;
   next();
 });
-//~line 74
+
 app.use('/auth', authRouter);
-//~line 74
 app.use('/api/auth', apiAuthRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

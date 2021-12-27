@@ -44,7 +44,21 @@ gulp.task('build-auth-js', function() {
 
   return merge(authApp);
 });
-//~line 49
+
+// now, articles
+gulp.task('build-articles-js', function() {
+
+  // following convention of naming xApp by singularity
+  var articleApp = gulp.src([
+  'src/js/articles.app.js',
+  ])
+  .pipe(concat('articles.app.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('public/dist/js'));
+  
+  return merge(articleApp);
+  });
+  
 gulp.task('build-users-js', function() {
 
   var userApp = gulp.src([
@@ -72,11 +86,6 @@ gulp.task('build-css', gulp.series('build-main-css'));
 gulp.task('build-js', gulp.series(
     'build-main-js',
     'build-auth-js',
-  ));
-  //~line 76
-//Compile all JS tasks
-gulp.task('build-js', gulp.series(
-  'build-main-js',
-  'build-auth-js',
-  'build-users-js'
+    'build-users-js',
+    'build-articles-js',
 ));
