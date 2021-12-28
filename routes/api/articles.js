@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var articles = require('../../models/articles');
+var Articles = require('../../models/articles');
 
 router.get('/', function(req, res, next) {
 
-    articles.find({},function(err, articles){
+    Articles.find({},function(err, articles){
         if(err){
          return res.json({'success':false, 'error': err});
        }
@@ -14,30 +14,23 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/:articleId', function(req,res){
+router.get('/:id', function(req,res){
 
-    var articleId = req.params.articleId;
+    var id = req.params.id;
 
-   articles.findOne({'_id':articleId}, function(err, article){
-     if(err){
+   Articles.findOne({'_id':id}, function(err, article){
+     if(err){console.log(err);
       return res.json({'success':false, 'error': err});
     }
-
-     return res.json({'success':true, 'article': article});
+      return res.json({'success':true, 'article': article});
    });
-
 });
 
 router.post('/', function(req, res) {
-    articles.create(new articles({
+    Articles.create(new Articles({
+
         title: req.body.title,
-        slug: req.body.slug,
-        description: req.body.description,
-        keywords: req.body.keywords,
-        body: req.body.body,
-        published: req.body.published,
-        created: req.body.created,
-        modified: req.body.modified,
+
       }), function(err, article){
         
         if(err){
@@ -51,7 +44,7 @@ router.post('/', function(req, res) {
 
 router.put('/', function(req, res){
 
-    articles.findOne({'_id': req.body._id}, function(err, article){
+    Articles.findOne({'_id': req.body._id}, function(err, article){
 
         if(err) {
           return res.json({success: false, error: err});
@@ -83,15 +76,6 @@ router.put('/', function(req, res){
 
          if(data.published){
             article.published = data.published;
-            article.offset = new Date(data.published).getTimezoneOffset();
-         };
-
-         if(data.created){
-            article.created = data.created;
-         };
-
-         if(data.modified){
-            article.modified = data.modified;
          };
      
          article.save(function(err){

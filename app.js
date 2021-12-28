@@ -106,7 +106,7 @@ app.use(function(req,res,next){
   //be considered a match for /api/auth/
   for(var sub of subs){
     if(req.url.substring(0, sub.length)===sub){
-      return next();
+    return next();
     }
   }
 
